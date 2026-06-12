@@ -1,0 +1,27 @@
+# Replace YOUR-APP-NAME with a globally unique name (lowercase, hyphens allowed)
+# Example: github-manager-olha
+app = "YOUR-APP-NAME"
+primary_region = "fra"
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Machine sleeps when idle — cold start ~5s (fine for an internal tool)
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.checks]
+    [http_service.checks.health]
+      grace_period = "30s"
+      interval = "15s"
+      method = "GET"
+      path = "/api/health"
+      timeout = "5s"
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
